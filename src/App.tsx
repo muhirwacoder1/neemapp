@@ -32,6 +32,7 @@ import { DayPicker } from 'react-day-picker';
 import { format } from 'date-fns';
 import { Dialog, Transition } from '@headlessui/react';
 import 'react-day-picker/dist/style.css';
+import { TranslationProvider, useTranslation } from './contexts/TranslationContext';
 
 // Add a type for theme colors
 type ThemeColors = {
@@ -77,6 +78,8 @@ type UserProfile = {
 };
 
 function DashboardView({ darkMode, theme }: { darkMode: boolean; theme: ThemeColors }) {
+  const { t } = useTranslation();
+  
   return (
     <>
       {/* Connection Status */}
@@ -91,7 +94,7 @@ function DashboardView({ darkMode, theme }: { darkMode: boolean; theme: ThemeCol
 
       {/* Pressure Monitoring */}
       <section>
-        <h2 className="text-2xl font-bold mb-6">Foot Pressures</h2>
+        <h2 className="text-2xl font-bold mb-6">{t('dashboard.footPressures')}</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
           {['Heel', 'Middle', 'Toe'].map((zone, index) => (
             <div key={zone} className={`${theme.card} p-6 rounded-lg`}>
@@ -127,14 +130,14 @@ function DashboardView({ darkMode, theme }: { darkMode: boolean; theme: ThemeCol
 
       {/* Health Stats */}
       <section>
-        <h2 className="text-2xl font-bold mb-6">Health Stats</h2>
+        <h2 className="text-2xl font-bold mb-6">{t('dashboard.healthStats')}</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
           <div className={`${theme.card} p-6 rounded-lg`}>
             <div className="flex items-center gap-4">
               <Heart className="text-red-500" size={24} />
               <div>
                 <p className="text-3xl font-bold">91 <span className="text-sm text-gray-400">bpm</span></p>
-                <p className="text-gray-400">Heart Rate</p>
+                <p className="text-gray-400">{t('dashboard.heartRate')}</p>
               </div>
             </div>
           </div>
@@ -143,7 +146,7 @@ function DashboardView({ darkMode, theme }: { darkMode: boolean; theme: ThemeCol
               <div className="text-blue-500">🌡️</div>
               <div>
                 <p className="text-3xl font-bold">36.2 <span className="text-sm text-gray-400">°C</span></p>
-                <p className="text-gray-400">Temperature</p>
+                <p className="text-gray-400">{t('dashboard.temperature')}</p>
               </div>
             </div>
           </div>
@@ -153,8 +156,8 @@ function DashboardView({ darkMode, theme }: { darkMode: boolean; theme: ThemeCol
       {/* Ulcer Monitoring */}
       <section>
         <div className={`${theme.card} p-6 rounded-lg`}>
-          <h2 className="text-2xl font-bold mb-2">Predictive Foot Ulcer Monitoring</h2>
-          <p className="text-gray-400 text-sm">URS updated every 2 hours</p>
+          <h2 className="text-2xl font-bold mb-2">{t('dashboard.ulcerMonitoring')}</h2>
+          <p className="text-gray-400 text-sm">{t('dashboard.ursUpdate')}</p>
         </div>
       </section>
     </>
@@ -162,6 +165,7 @@ function DashboardView({ darkMode, theme }: { darkMode: boolean; theme: ThemeCol
 }
 
 function AppointmentView({ darkMode, theme }: { darkMode: boolean; theme: ThemeColors }) {
+  const { t } = useTranslation();
   const [isBookingOpen, setIsBookingOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date>();
   const [selectedTime, setSelectedTime] = useState<string>();
@@ -219,12 +223,12 @@ function AppointmentView({ darkMode, theme }: { darkMode: boolean; theme: ThemeC
   return (
     <div className={`${theme.card} p-6 rounded-lg`}>
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-        <h2 className="text-2xl font-bold">Appointments</h2>
+        <h2 className="text-2xl font-bold">{t('appointments.title')}</h2>
         <button 
           onClick={() => setIsBookingOpen(true)}
           className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 w-full sm:w-auto justify-center"
         >
-          <Plus size={20} /> Book Appointment
+          <Plus size={20} /> {t('appointments.bookAppointment')}
         </button>
       </div>
 
@@ -259,14 +263,14 @@ function AppointmentView({ darkMode, theme }: { darkMode: boolean; theme: ThemeC
                   {appointment.status === 'pending' ? <Clock size={14} className="animate-spin" /> :
                    appointment.status === 'approved' ? <CheckCircle2 size={14} /> :
                    <XCircle size={14} />}
-                  {appointment.status.charAt(0).toUpperCase() + appointment.status.slice(1)}
+                  {t(`appointments.${appointment.status}`)}
                 </div>
                 {appointment.status === 'pending' && (
                   <button
                     onClick={() => handleApproveAppointment(appointment.id)}
                     className="text-sm text-blue-500 hover:text-blue-600"
                   >
-                    Approve
+                    {t('appointments.approved')}
                   </button>
                 )}
                 {appointment.status === 'approved' && appointment.meetUrl && (
@@ -277,7 +281,7 @@ function AppointmentView({ darkMode, theme }: { darkMode: boolean; theme: ThemeC
                     className="flex items-center gap-2 text-sm text-blue-500 hover:text-blue-600"
                   >
                     <Video size={14} />
-                    Join Meeting
+                    {t('appointments.joinMeeting')}
                   </a>
                 )}
               </div>
@@ -327,13 +331,13 @@ function AppointmentView({ darkMode, theme }: { darkMode: boolean; theme: ThemeC
                   as="h3"
                   className="text-lg font-medium leading-6"
                 >
-                  Book Appointment
+                  {t('appointments.bookAppointment')}
                 </Dialog.Title>
 
                 <div className="mt-4 space-y-4">
                   {/* Calendar */}
                   <div>
-                    <label className="block text-sm font-medium mb-2">Select Date</label>
+                    <label className="block text-sm font-medium mb-2">{t('appointments.selectDate')}</label>
                     <div className={`${theme.card} p-4 rounded-lg`}>
                       <DayPicker
                         mode="single"
@@ -347,7 +351,7 @@ function AppointmentView({ darkMode, theme }: { darkMode: boolean; theme: ThemeC
 
                   {/* Time Selection */}
                   <div>
-                    <label className="block text-sm font-medium mb-2">Select Time</label>
+                    <label className="block text-sm font-medium mb-2">{t('appointments.selectTime')}</label>
                     <div className="grid grid-cols-3 gap-2">
                       {timeSlots.map((time) => (
                         <button
@@ -367,7 +371,7 @@ function AppointmentView({ darkMode, theme }: { darkMode: boolean; theme: ThemeC
 
                   {/* Doctor Selection */}
                   <div>
-                    <label className="block text-sm font-medium mb-2">Select Healthcare Professional</label>
+                    <label className="block text-sm font-medium mb-2">{t('appointments.selectDoctor')}</label>
                     <div className="space-y-2">
                       {doctors.map((doctor) => (
                         <button
@@ -392,14 +396,14 @@ function AppointmentView({ darkMode, theme }: { darkMode: boolean; theme: ThemeC
                     onClick={() => setIsBookingOpen(false)}
                     className={`px-4 py-2 text-sm font-medium rounded-lg ${theme.cardHover} ${theme.border}`}
                   >
-                    Cancel
+                    {t('appointments.cancel')}
                   </button>
                   <button
                     onClick={handleBookAppointment}
                     disabled={!selectedDate || !selectedTime || !selectedDoctor}
                     className={`px-4 py-2 text-sm font-medium rounded-lg bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed`}
                   >
-                    Book Appointment
+                    {t('appointments.book')}
                   </button>
                 </div>
               </div>
@@ -412,14 +416,16 @@ function AppointmentView({ darkMode, theme }: { darkMode: boolean; theme: ThemeC
 }
 
 function NotificationsView({ darkMode, theme }: { darkMode: boolean; theme: ThemeColors }) {
+  const { t } = useTranslation();
+  
   return (
     <div className={`${theme.card} p-6 rounded-lg`}>
-      <h2 className="text-2xl font-bold mb-6">Notifications</h2>
+      <h2 className="text-2xl font-bold mb-6">{t('notifications.title')}</h2>
       <div className="space-y-4">
         {[
-          { icon: AlertTriangle, color: 'text-red-500', title: 'High Pressure Alert', message: 'Unusual pressure detected in heel area', time: '5 min ago' },
-          { icon: Info, color: 'text-blue-500', title: 'Appointment Reminder', message: 'Checkup with Dr. Smith tomorrow at 9 AM', time: '1 hour ago' },
-          { icon: Heart, color: 'text-green-500', title: 'Health Update', message: 'Weekly health report is available', time: '2 hours ago' }
+          { icon: AlertTriangle, color: 'text-red-500', title: t('notifications.highPressure'), message: 'Unusual pressure detected in heel area', time: '5 min ago' },
+          { icon: Info, color: 'text-blue-500', title: t('notifications.appointmentReminder'), message: 'Checkup with Dr. Smith tomorrow at 9 AM', time: '1 hour ago' },
+          { icon: Heart, color: 'text-green-500', title: t('notifications.healthUpdate'), message: 'Weekly health report is available', time: '2 hours ago' }
         ].map((notification, index) => (
           <div key={index} className={`${theme.card} p-4 rounded-lg flex flex-col sm:flex-row gap-4`}>
             <notification.icon className={`${notification.color} shrink-0`} size={24} />
@@ -435,16 +441,18 @@ function NotificationsView({ darkMode, theme }: { darkMode: boolean; theme: Them
   );
 }
 
-function ProfileView({ darkMode, theme, userProfile, onUpdateProfile }: { 
+function ProfileView({ darkMode, theme, userProfile, onUpdateProfile, onLanguageChange, currentLanguage }: { 
   darkMode: boolean; 
   theme: ThemeColors;
   userProfile: UserProfile;
   onUpdateProfile: (profile: UserProfile) => void;
+  onLanguageChange: (lang: string) => void;
+  currentLanguage: string;
 }) {
+  const { t } = useTranslation();
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
   const [twoFactorEnabled, setTwoFactorEnabled] = useState(false);
-  const [language, setLanguage] = useState('en');
   const [formData, setFormData] = useState(userProfile);
   const [connectedDevices] = useState([
     { id: 1, name: 'Smart Insole #1', type: 'insole', status: 'connected', lastSync: '2 mins ago' },
@@ -458,7 +466,7 @@ function ProfileView({ darkMode, theme, userProfile, onUpdateProfile }: {
 
   const handleProfileUpdate = () => {
     onUpdateProfile(formData);
-    setSuccessMessage('Profile updated successfully!');
+    setSuccessMessage(t('profile.updateSuccess'));
     setShowSuccessMessage(true);
     setTimeout(() => setShowSuccessMessage(false), 3000);
   };
@@ -471,21 +479,21 @@ function ProfileView({ darkMode, theme, userProfile, onUpdateProfile }: {
   };
 
   const handlePasswordReset = () => {
-    setSuccessMessage('Password reset link sent to your email!');
+    setSuccessMessage(t('profile.passwordResetSuccess'));
     setShowSuccessMessage(true);
     setTimeout(() => setShowSuccessMessage(false), 3000);
   };
 
   const handleTwoFactorToggle = () => {
     setTwoFactorEnabled(!twoFactorEnabled);
-    setSuccessMessage(twoFactorEnabled ? '2FA disabled successfully!' : '2FA enabled successfully!');
+    setSuccessMessage(twoFactorEnabled ? t('profile.twoFactorDisabled') : t('profile.twoFactorEnabled'));
     setShowSuccessMessage(true);
     setTimeout(() => setShowSuccessMessage(false), 3000);
   };
 
   const handleLanguageChange = (lang: string) => {
-    setLanguage(lang);
-    setSuccessMessage('Language changed successfully!');
+    onLanguageChange(lang);
+    setSuccessMessage(t('profile.languageChanged'));
     setShowSuccessMessage(true);
     setTimeout(() => setShowSuccessMessage(false), 3000);
   };
@@ -501,11 +509,11 @@ function ProfileView({ darkMode, theme, userProfile, onUpdateProfile }: {
 
       {/* Profile Information */}
       <div className={`${theme.card} p-6 rounded-lg`}>
-        <h2 className="text-2xl font-bold mb-6">Profile Information</h2>
+        <h2 className="text-2xl font-bold mb-6">{t('profile.profileInfo')}</h2>
         <div className="space-y-4">
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="flex-1">
-              <label className="block text-sm font-medium mb-2">Full Name</label>
+              <label className="block text-sm font-medium mb-2">{t('profile.fullName')}</label>
               <input
                 type="text"
                 name="fullName"
@@ -515,7 +523,7 @@ function ProfileView({ darkMode, theme, userProfile, onUpdateProfile }: {
               />
             </div>
             <div className="flex-1">
-              <label className="block text-sm font-medium mb-2">Email</label>
+              <label className="block text-sm font-medium mb-2">{t('profile.email')}</label>
               <input
                 type="email"
                 name="email"
@@ -527,7 +535,7 @@ function ProfileView({ darkMode, theme, userProfile, onUpdateProfile }: {
           </div>
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="flex-1">
-              <label className="block text-sm font-medium mb-2">Phone</label>
+              <label className="block text-sm font-medium mb-2">{t('profile.phone')}</label>
               <input
                 type="tel"
                 name="phone"
@@ -537,7 +545,7 @@ function ProfileView({ darkMode, theme, userProfile, onUpdateProfile }: {
               />
             </div>
             <div className="flex-1">
-              <label className="block text-sm font-medium mb-2">Location</label>
+              <label className="block text-sm font-medium mb-2">{t('profile.location')}</label>
               <input
                 type="text"
                 name="location"
@@ -552,28 +560,28 @@ function ProfileView({ darkMode, theme, userProfile, onUpdateProfile }: {
             className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors w-full sm:w-auto flex items-center justify-center gap-2"
           >
             <Save size={20} />
-            Update Profile
+            {t('profile.updateProfile')}
           </button>
         </div>
       </div>
 
       {/* Security Settings */}
       <div className={`${theme.card} p-6 rounded-lg`}>
-        <h2 className="text-2xl font-bold mb-6">Security Settings</h2>
+        <h2 className="text-2xl font-bold mb-6">{t('profile.security')}</h2>
         <div className="space-y-6">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-3">
               <Key className="text-blue-500" size={24} />
               <div>
-                <h3 className="font-medium">Password Reset</h3>
-                <p className="text-sm text-gray-400">Change your account password</p>
+                <h3 className="font-medium">{t('profile.passwordReset')}</h3>
+                <p className="text-sm text-gray-400">{t('profile.changePassword')}</p>
               </div>
             </div>
             <button
               onClick={handlePasswordReset}
               className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors w-full sm:w-auto"
             >
-              Reset Password
+              {t('profile.resetPassword')}
             </button>
           </div>
 
@@ -581,8 +589,8 @@ function ProfileView({ darkMode, theme, userProfile, onUpdateProfile }: {
             <div className="flex items-center gap-3">
               <Shield className="text-blue-500" size={24} />
               <div>
-                <h3 className="font-medium">Two-Factor Authentication</h3>
-                <p className="text-sm text-gray-400">Add an extra layer of security</p>
+                <h3 className="font-medium">{t('profile.twoFactor')}</h3>
+                <p className="text-sm text-gray-400">{t('profile.twoFactorDesc')}</p>
               </div>
             </div>
             <button
@@ -593,7 +601,7 @@ function ProfileView({ darkMode, theme, userProfile, onUpdateProfile }: {
                   : 'bg-gray-600 text-white hover:bg-gray-700'
               }`}
             >
-              {twoFactorEnabled ? 'Enabled' : 'Disabled'}
+              {twoFactorEnabled ? t('profile.enabled') : t('profile.disabled')}
             </button>
           </div>
         </div>
@@ -601,7 +609,7 @@ function ProfileView({ darkMode, theme, userProfile, onUpdateProfile }: {
 
       {/* Language Settings */}
       <div className={`${theme.card} p-6 rounded-lg`}>
-        <h2 className="text-2xl font-bold mb-6">Language Settings</h2>
+        <h2 className="text-2xl font-bold mb-6">{t('profile.language')}</h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {[
             { code: 'en', name: 'English', flag: '🇺🇸' },
@@ -612,7 +620,7 @@ function ProfileView({ darkMode, theme, userProfile, onUpdateProfile }: {
               key={lang.code}
               onClick={() => handleLanguageChange(lang.code)}
               className={`p-4 rounded-lg flex items-center gap-3 transition-colors ${
-                language === lang.code
+                currentLanguage === lang.code
                   ? 'bg-blue-600 text-white'
                   : theme.cardHover
               }`}
@@ -626,7 +634,7 @@ function ProfileView({ darkMode, theme, userProfile, onUpdateProfile }: {
 
       {/* Connected Devices */}
       <div className={`${theme.card} p-6 rounded-lg`}>
-        <h2 className="text-2xl font-bold mb-6">Connected Devices</h2>
+        <h2 className="text-2xl font-bold mb-6">{t('profile.devices')}</h2>
         <div className="space-y-4">
           {connectedDevices.map((device) => (
             <div
@@ -639,7 +647,7 @@ function ProfileView({ darkMode, theme, userProfile, onUpdateProfile }: {
                 </div>
                 <div>
                   <h3 className="font-medium">{device.name}</h3>
-                  <p className="text-sm text-gray-400">Last synced: {device.lastSync}</p>
+                  <p className="text-sm text-gray-400">{t('profile.lastSync')}: {device.lastSync}</p>
                 </div>
               </div>
               <span
@@ -649,7 +657,7 @@ function ProfileView({ darkMode, theme, userProfile, onUpdateProfile }: {
                     : 'bg-gray-500/20 text-gray-500'
                 }`}
               >
-                {device.status}
+                {t(`profile.${device.status}`)}
               </span>
             </div>
           ))}
@@ -660,6 +668,7 @@ function ProfileView({ darkMode, theme, userProfile, onUpdateProfile }: {
 }
 
 function RegisterInsoleView({ darkMode, theme }: { darkMode: boolean; theme: ThemeColors }) {
+  const { t } = useTranslation();
   const [showSuccess, setShowSuccess] = useState(false);
   const [formData, setFormData] = useState({
     serialNumber: '',
@@ -686,60 +695,60 @@ function RegisterInsoleView({ darkMode, theme }: { darkMode: boolean; theme: The
       {showSuccess && (
         <div className="fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-2 animate-fade-in-out">
           <CheckCircle2 size={20} />
-          Insole registered successfully!
+          {t('registerInsole.success')}
         </div>
       )}
 
-      <h2 className="text-2xl font-bold mb-6">Register New Insole</h2>
+      <h2 className="text-2xl font-bold mb-6">{t('registerInsole.title')}</h2>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label className="block text-sm font-medium mb-2">Serial Number (SN)</label>
+          <label className="block text-sm font-medium mb-2">{t('registerInsole.serialNumber')}</label>
           <input
             type="text"
             name="serialNumber"
             value={formData.serialNumber}
             onChange={handleChange}
             required
-            placeholder="Enter insole serial number"
+            placeholder={t('registerInsole.enterSerial')}
             className={`w-full p-3 rounded-lg ${theme.card} ${theme.border}`}
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-2">Email</label>
+          <label className="block text-sm font-medium mb-2">{t('profile.email')}</label>
           <input
             type="email"
             name="email"
             value={formData.email}
             onChange={handleChange}
             required
-            placeholder="Enter your email"
+            placeholder={t('registerInsole.enterEmail')}
             className={`w-full p-3 rounded-lg ${theme.card} ${theme.border}`}
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-2">Phone Number</label>
+          <label className="block text-sm font-medium mb-2">{t('profile.phone')}</label>
           <input
             type="tel"
             name="phone"
             value={formData.phone}
             onChange={handleChange}
             required
-            placeholder="Enter your phone number"
+            placeholder={t('registerInsole.enterPhone')}
             className={`w-full p-3 rounded-lg ${theme.card} ${theme.border}`}
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-2">Full Name</label>
+          <label className="block text-sm font-medium mb-2">{t('profile.fullName')}</label>
           <input
             type="text"
             name="fullName"
             value={formData.fullName}
             onChange={handleChange}
             required
-            placeholder="Enter your full name"
+            placeholder={t('registerInsole.enterName')}
             className={`w-full p-3 rounded-lg ${theme.card} ${theme.border}`}
           />
         </div>
@@ -748,7 +757,7 @@ function RegisterInsoleView({ darkMode, theme }: { darkMode: boolean; theme: The
           type="submit"
           className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
         >
-          Register Insole
+          {t('registerInsole.register')}
         </button>
       </form>
     </div>
@@ -760,6 +769,7 @@ function App() {
   const [darkMode, setDarkMode] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+  const { t, language, setLanguage } = useTranslation();
   const [userProfile, setUserProfile] = useState<UserProfile>({
     fullName: 'Moni Ray',
     email: 'moni.ray@example.com',
@@ -771,6 +781,10 @@ function App() {
 
   const handleUpdateProfile = (newProfile: UserProfile) => {
     setUserProfile(newProfile);
+  };
+
+  const handleLanguageChange = (lang: string) => {
+    setLanguage(lang);
   };
 
   const renderContent = () => {
@@ -787,6 +801,8 @@ function App() {
           theme={theme} 
           userProfile={userProfile} 
           onUpdateProfile={handleUpdateProfile}
+          onLanguageChange={handleLanguageChange}
+          currentLanguage={language}
         />;
       case 'register-insole':
         return <RegisterInsoleView darkMode={darkMode} theme={theme} />;
@@ -810,23 +826,22 @@ function App() {
       {showLogoutConfirm && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className={`${theme.card} p-6 rounded-lg max-w-sm w-full mx-4 shadow-xl`}>
-            <h3 className="text-xl font-bold mb-4">Confirm Logout</h3>
-            <p className={`${theme.textSecondary} mb-6`}>Are you sure you want to log out?</p>
+            <h3 className="text-xl font-bold mb-4">{t('common.confirmLogout')}</h3>
+            <p className={`${theme.textSecondary} mb-6`}>{t('common.logoutMessage')}</p>
             <div className="flex gap-4">
               <button
                 onClick={() => setShowLogoutConfirm(false)}
                 className={`flex-1 py-2 rounded-lg ${theme.card} ${theme.cardHover} border ${theme.border}`}
               >
-                Cancel
+                {t('common.cancel')}
               </button>
               <button
                 onClick={() => {
-                  // Handle logout logic here
                   setShowLogoutConfirm(false);
                 }}
                 className="flex-1 bg-red-600 text-white py-2 rounded-lg hover:bg-red-700"
               >
-                Logout
+                {t('common.logout')}
               </button>
             </div>
           </div>
@@ -848,19 +863,7 @@ function App() {
       </header>
 
       {/* Sidebar */}
-      <aside className={`
-        ${theme.card}
-        ${isMobileMenuOpen ? 'block' : 'hidden'}
-        sm:block
-        w-full sm:w-64 
-        sm:fixed 
-        h-full 
-        p-6 
-        flex 
-        flex-col
-        z-40
-        border-r ${theme.border}
-      `}>
+      <aside className={`${theme.card} ${isMobileMenuOpen ? 'block' : 'hidden'} sm:block w-full sm:w-64 sm:fixed h-full p-6 flex flex-col z-40 border-r ${theme.border}`}>
         <div className="hidden sm:flex items-center gap-2 mb-8">
           <span className="text-3xl font-bold bg-blue-600 text-white w-10 h-10 rounded-lg flex items-center justify-center">a</span>
           <span className="text-2xl font-bold">appo</span>
@@ -868,11 +871,11 @@ function App() {
 
         <nav className="flex-1 space-y-2">
           {[
-            { id: 'dashboard', icon: Heart, label: 'Dashboard' },
-            { id: 'appointment', icon: Calendar, label: 'Appointment' },
-            { id: 'notifications', icon: Bell, label: 'Notifications' },
-            { id: 'profile', icon: User, label: 'Profile' },
-            { id: 'register-insole', icon: Plus, label: 'Register Insole' }
+            { id: 'dashboard', icon: Heart, label: t('dashboard.title') },
+            { id: 'appointment', icon: Calendar, label: t('appointments.title') },
+            { id: 'notifications', icon: Bell, label: t('notifications.title') },
+            { id: 'profile', icon: User, label: t('profile.title') },
+            { id: 'register-insole', icon: Plus, label: t('registerInsole.title') }
           ].map((item) => (
             <button 
               key={item.id}
@@ -893,7 +896,7 @@ function App() {
             onClick={handleLogout}
             className={`flex items-center gap-3 w-full p-3 rounded-lg text-red-500 ${theme.cardHover}`}
           >
-            <LogOut size={20} /> Logout
+            <LogOut size={20} /> {t('common.logout')}
           </button>
         </div>
       </aside>
@@ -906,7 +909,7 @@ function App() {
             <Search className={`absolute left-2 top-1/2 transform -translate-y-1/2 ${theme.textSecondary}`} size={16} />
             <input
               type="text"
-              placeholder="Search"
+              placeholder={t('common.search')}
               className={`pl-8 pr-3 py-1.5 rounded-lg ${theme.card} w-full text-sm border ${theme.border}`}
             />
           </div>
@@ -929,7 +932,7 @@ function App() {
               </div>
               <div>
                 <p className="text-sm font-medium">{userProfile.fullName}</p>
-                <p className={`text-xs ${theme.textSecondary}`}>User</p>
+                <p className={`text-xs ${theme.textSecondary}`}>{t('common.user')}</p>
               </div>
             </div>
           </div>
@@ -941,4 +944,11 @@ function App() {
   );
 }
 
-export default App;
+// Wrap the app with TranslationProvider
+export default function AppWithTranslation() {
+  return (
+    <TranslationProvider>
+      <App />
+    </TranslationProvider>
+  );
+}

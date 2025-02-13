@@ -1,0 +1,76 @@
+{
+  "dashboard": {
+    "title": "Tableau de bord",
+    "connectionStatus": "État de la connexion",
+    "footPressures": "Pressions du pied",
+    "healthStats": "Statistiques de santé",
+    "heartRate": "Fréquence cardiaque",
+    "temperature": "Température",
+    "ulcerMonitoring": "Surveillance prédictive des ulcères du pied",
+    "ursUpdate": "URS mis à jour toutes les 2 heures"
+  },
+  "appointments": {
+    "title": "Rendez-vous",
+    "bookAppointment": "Prendre rendez-vous",
+    "selectDate": "Sélectionner une date",
+    "selectTime": "Sélectionner l'heure",
+    "selectDoctor": "Sélectionner un professionnel de santé",
+    "cancel": "Annuler",
+    "book": "Réserver",
+    "pending": "En attente",
+    "approved": "Approuvé",
+    "rejected": "Rejeté",
+    "joinMeeting": "Rejoindre la réunion"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "highPressure": "Alerte de haute pression",
+    "appointmentReminder": "Rappel de rendez-vous",
+    "healthUpdate": "Mise à jour santé"
+  },
+  "profile": {
+    "title": "Profil",
+    "profileInfo": "Informations du profil",
+    "fullName": "Nom complet",
+    "email": "Email",
+    "phone": "Téléphone",
+    "location": "Localisation",
+    "updateProfile": "Mettre à jour le profil",
+    "updateSuccess": "Profil mis à jour avec succès !",
+    "security": "Paramètres de sécurité",
+    "passwordReset": "Réinitialisation du mot de passe",
+    "changePassword": "Changer votre mot de passe",
+    "resetPassword": "Réinitialiser le mot de passe",
+    "passwordResetSuccess": "Lien de réinitialisation envoyé par email !",
+    "twoFactor": "Authentification à deux facteurs",
+    "twoFactorDesc": "Ajouter une couche de sécurité supplémentaire",
+    "enabled": "Activé",
+    "disabled": "Désactivé",
+    "twoFactorEnabled": "2FA activée avec succès !",
+    "twoFactorDisabled": "2FA désactivée avec succès !",
+    "language": "Paramètres de langue",
+    "languageChanged": "Langue changée avec succès !",
+    "devices": "Appareils connectés",
+    "lastSync": "Dernière synchronisation",
+    "connected": "Connecté",
+    "disconnected": "Déconnecté"
+  },
+  "registerInsole": {
+    "title": "Enregistrer une nouvelle semelle",
+    "serialNumber": "Numéro de série (SN)",
+    "enterSerial": "Entrez le numéro de série de la semelle",
+    "enterEmail": "Entrez votre email",
+    "enterPhone": "Entrez votre numéro de téléphone",
+    "enterName": "Entrez votre nom complet",
+    "register": "Enregistrer la semelle",
+    "success": "Semelle enregistrée avec succès!"
+  },
+  "common": {
+    "search": "Rechercher",
+    "user": "Utilisateur",
+    "logout": "Déconnexion",
+    "confirmLogout": "Confirmer la déconnexion",
+    "logoutMessage": "Êtes-vous sûr de vouloir vous déconnecter?",
+    "cancel": "Annuler"
+  }
+} 

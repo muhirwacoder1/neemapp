@@ -1,0 +1,76 @@
+{
+  "dashboard": {
+    "title": "Dashboard",
+    "connectionStatus": "Connection Status",
+    "footPressures": "Foot Pressures",
+    "healthStats": "Health Stats",
+    "heartRate": "Heart Rate",
+    "temperature": "Temperature",
+    "ulcerMonitoring": "Predictive Foot Ulcer Monitoring",
+    "ursUpdate": "URS updated every 2 hours"
+  },
+  "appointments": {
+    "title": "Appointments",
+    "bookAppointment": "Book Appointment",
+    "selectDate": "Select Date",
+    "selectTime": "Select Time",
+    "selectDoctor": "Select Healthcare Professional",
+    "cancel": "Cancel",
+    "book": "Book Appointment",
+    "pending": "Pending",
+    "approved": "Approved",
+    "rejected": "Rejected",
+    "joinMeeting": "Join Meeting"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "highPressure": "High Pressure Alert",
+    "appointmentReminder": "Appointment Reminder",
+    "healthUpdate": "Health Update"
+  },
+  "profile": {
+    "title": "Profile",
+    "profileInfo": "Profile Information",
+    "fullName": "Full Name",
+    "email": "Email",
+    "phone": "Phone",
+    "location": "Location",
+    "updateProfile": "Update Profile",
+    "updateSuccess": "Profile updated successfully!",
+    "security": "Security Settings",
+    "passwordReset": "Password Reset",
+    "changePassword": "Change your account password",
+    "resetPassword": "Reset Password",
+    "passwordResetSuccess": "Password reset link sent to your email!",
+    "twoFactor": "Two-Factor Authentication",
+    "twoFactorDesc": "Add an extra layer of security",
+    "enabled": "Enabled",
+    "disabled": "Disabled",
+    "twoFactorEnabled": "2FA enabled successfully!",
+    "twoFactorDisabled": "2FA disabled successfully!",
+    "language": "Language Settings",
+    "languageChanged": "Language changed successfully!",
+    "devices": "Connected Devices",
+    "lastSync": "Last synced",
+    "connected": "Connected",
+    "disconnected": "Disconnected"
+  },
+  "registerInsole": {
+    "title": "Register New Insole",
+    "serialNumber": "Serial Number (SN)",
+    "enterSerial": "Enter insole serial number",
+    "enterEmail": "Enter your email",
+    "enterPhone": "Enter your phone number",
+    "enterName": "Enter your full name",
+    "register": "Register Insole",
+    "success": "Insole registered successfully!"
+  },
+  "common": {
+    "search": "Search",
+    "user": "User",
+    "logout": "Logout",
+    "confirmLogout": "Confirm Logout",
+    "logoutMessage": "Are you sure you want to log out?",
+    "cancel": "Cancel"
+  }
+} 
