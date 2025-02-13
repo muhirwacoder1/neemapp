@@ -24,22 +24,67 @@ import {
   Key,
   Save,
   CheckCircle2,
-  Video
+  Video,
+  Sun,
+  XCircle
 } from 'lucide-react';
 import { DayPicker } from 'react-day-picker';
 import { format } from 'date-fns';
 import { Dialog, Transition } from '@headlessui/react';
 import 'react-day-picker/dist/style.css';
 
-function DashboardView({ darkMode }: { darkMode: boolean }) {
+// Add a type for theme colors
+type ThemeColors = {
+  background: string;
+  card: string;
+  cardHover: string;
+  text: string;
+  textSecondary: string;
+  border: string;
+  primary: string;
+  primaryHover: string;
+};
+
+// Theme configuration
+const lightTheme: ThemeColors = {
+  background: 'bg-gray-50',
+  card: 'bg-white',
+  cardHover: 'hover:bg-gray-50',
+  text: 'text-gray-900',
+  textSecondary: 'text-gray-600',
+  border: 'border-gray-200',
+  primary: 'bg-blue-600',
+  primaryHover: 'hover:bg-blue-700'
+};
+
+const darkTheme: ThemeColors = {
+  background: 'bg-gray-900',
+  card: 'bg-gray-800',
+  cardHover: 'hover:bg-gray-700',
+  text: 'text-white',
+  textSecondary: 'text-gray-400',
+  border: 'border-gray-700',
+  primary: 'bg-blue-600',
+  primaryHover: 'hover:bg-blue-700'
+};
+
+// Add type for user profile
+type UserProfile = {
+  fullName: string;
+  email: string;
+  phone: string;
+  location: string;
+};
+
+function DashboardView({ darkMode, theme }: { darkMode: boolean; theme: ThemeColors }) {
   return (
     <>
       {/* Connection Status */}
       <div className="flex flex-wrap gap-4 mb-8">
-        <button className={`flex items-center gap-2 px-6 py-3 rounded-lg ${darkMode ? 'bg-gray-800' : 'bg-white'} hover:bg-blue-600 hover:text-white transition-colors`}>
+        <button className={`flex items-center gap-2 px-6 py-3 rounded-lg ${theme.card} ${theme.cardHover} transition-colors`}>
           <Wifi size={20} /> WiFi
         </button>
-        <button className={`flex items-center gap-2 px-6 py-3 rounded-lg ${darkMode ? 'bg-gray-800' : 'bg-white'} hover:bg-blue-600 hover:text-white transition-colors`}>
+        <button className={`flex items-center gap-2 px-6 py-3 rounded-lg ${theme.card} ${theme.cardHover} transition-colors`}>
           <Bluetooth size={20} /> Bluetooth
         </button>
       </div>
@@ -49,7 +94,7 @@ function DashboardView({ darkMode }: { darkMode: boolean }) {
         <h2 className="text-2xl font-bold mb-6">Foot Pressures</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
           {['Heel', 'Middle', 'Toe'].map((zone, index) => (
-            <div key={zone} className={`${darkMode ? 'bg-gray-800' : 'bg-white'} p-6 rounded-lg`}>
+            <div key={zone} className={`${theme.card} p-6 rounded-lg`}>
               <div className="flex justify-between items-center mb-4">
                 <span className={`text-4xl font-bold ${
                   index === 0 ? 'text-blue-500' : 
@@ -84,7 +129,7 @@ function DashboardView({ darkMode }: { darkMode: boolean }) {
       <section>
         <h2 className="text-2xl font-bold mb-6">Health Stats</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
-          <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} p-6 rounded-lg`}>
+          <div className={`${theme.card} p-6 rounded-lg`}>
             <div className="flex items-center gap-4">
               <Heart className="text-red-500" size={24} />
               <div>
@@ -93,7 +138,7 @@ function DashboardView({ darkMode }: { darkMode: boolean }) {
               </div>
             </div>
           </div>
-          <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} p-6 rounded-lg`}>
+          <div className={`${theme.card} p-6 rounded-lg`}>
             <div className="flex items-center gap-4">
               <div className="text-blue-500">🌡️</div>
               <div>
@@ -107,7 +152,7 @@ function DashboardView({ darkMode }: { darkMode: boolean }) {
 
       {/* Ulcer Monitoring */}
       <section>
-        <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} p-6 rounded-lg`}>
+        <div className={`${theme.card} p-6 rounded-lg`}>
           <h2 className="text-2xl font-bold mb-2">Predictive Foot Ulcer Monitoring</h2>
           <p className="text-gray-400 text-sm">URS updated every 2 hours</p>
         </div>
@@ -116,7 +161,7 @@ function DashboardView({ darkMode }: { darkMode: boolean }) {
   );
 }
 
-function AppointmentView({ darkMode }: { darkMode: boolean }) {
+function AppointmentView({ darkMode, theme }: { darkMode: boolean; theme: ThemeColors }) {
   const [isBookingOpen, setIsBookingOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date>();
   const [selectedTime, setSelectedTime] = useState<string>();
@@ -172,7 +217,7 @@ function AppointmentView({ darkMode }: { darkMode: boolean }) {
   };
 
   return (
-    <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} p-6 rounded-lg`}>
+    <div className={`${theme.card} p-6 rounded-lg`}>
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
         <h2 className="text-2xl font-bold">Appointments</h2>
         <button 
@@ -188,7 +233,7 @@ function AppointmentView({ darkMode }: { darkMode: boolean }) {
         {appointments.map((appointment) => (
           <div 
             key={appointment.id} 
-            className={`${darkMode ? 'bg-gray-700' : 'bg-gray-50'} p-4 rounded-lg`}
+            className={`${theme.card} p-4 rounded-lg`}
           >
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
               <div className="flex flex-col gap-2">
@@ -277,7 +322,7 @@ function AppointmentView({ darkMode }: { darkMode: boolean }) {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className={`inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform ${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-2xl`}>
+              <div className={`inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform ${theme.card} rounded-2xl`}>
                 <Dialog.Title
                   as="h3"
                   className="text-lg font-medium leading-6"
@@ -289,13 +334,13 @@ function AppointmentView({ darkMode }: { darkMode: boolean }) {
                   {/* Calendar */}
                   <div>
                     <label className="block text-sm font-medium mb-2">Select Date</label>
-                    <div className={`${darkMode ? 'bg-gray-700' : 'bg-gray-50'} p-4 rounded-lg`}>
+                    <div className={`${theme.card} p-4 rounded-lg`}>
                       <DayPicker
                         mode="single"
                         selected={selectedDate}
                         onSelect={setSelectedDate}
                         disabled={{ before: new Date() }}
-                        className={darkMode ? 'dark' : ''}
+                        className={theme.text}
                       />
                     </div>
                   </div>
@@ -311,9 +356,7 @@ function AppointmentView({ darkMode }: { darkMode: boolean }) {
                           className={`p-2 text-sm rounded-lg ${
                             selectedTime === time
                               ? 'bg-blue-600 text-white'
-                              : darkMode
-                              ? 'bg-gray-700 hover:bg-gray-600'
-                              : 'bg-gray-100 hover:bg-gray-200'
+                              : theme.cardHover
                           }`}
                         >
                           {time}
@@ -333,9 +376,7 @@ function AppointmentView({ darkMode }: { darkMode: boolean }) {
                           className={`w-full p-3 text-left rounded-lg ${
                             selectedDoctor === doctor.name
                               ? 'bg-blue-600 text-white'
-                              : darkMode
-                              ? 'bg-gray-700 hover:bg-gray-600'
-                              : 'bg-gray-100 hover:bg-gray-200'
+                              : theme.cardHover
                           }`}
                         >
                           <div className="font-medium">{doctor.name}</div>
@@ -349,9 +390,7 @@ function AppointmentView({ darkMode }: { darkMode: boolean }) {
                 <div className="mt-6 flex justify-end gap-3">
                   <button
                     onClick={() => setIsBookingOpen(false)}
-                    className={`px-4 py-2 text-sm font-medium rounded-lg ${
-                      darkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-100 hover:bg-gray-200'
-                    }`}
+                    className={`px-4 py-2 text-sm font-medium rounded-lg ${theme.cardHover} ${theme.border}`}
                   >
                     Cancel
                   </button>
@@ -372,9 +411,9 @@ function AppointmentView({ darkMode }: { darkMode: boolean }) {
   );
 }
 
-function NotificationsView({ darkMode }: { darkMode: boolean }) {
+function NotificationsView({ darkMode, theme }: { darkMode: boolean; theme: ThemeColors }) {
   return (
-    <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} p-6 rounded-lg`}>
+    <div className={`${theme.card} p-6 rounded-lg`}>
       <h2 className="text-2xl font-bold mb-6">Notifications</h2>
       <div className="space-y-4">
         {[
@@ -382,7 +421,7 @@ function NotificationsView({ darkMode }: { darkMode: boolean }) {
           { icon: Info, color: 'text-blue-500', title: 'Appointment Reminder', message: 'Checkup with Dr. Smith tomorrow at 9 AM', time: '1 hour ago' },
           { icon: Heart, color: 'text-green-500', title: 'Health Update', message: 'Weekly health report is available', time: '2 hours ago' }
         ].map((notification, index) => (
-          <div key={index} className={`${darkMode ? 'bg-gray-700' : 'bg-gray-50'} p-4 rounded-lg flex flex-col sm:flex-row gap-4`}>
+          <div key={index} className={`${theme.card} p-4 rounded-lg flex flex-col sm:flex-row gap-4`}>
             <notification.icon className={`${notification.color} shrink-0`} size={24} />
             <div className="flex-1">
               <p className="font-medium">{notification.title}</p>
@@ -396,20 +435,39 @@ function NotificationsView({ darkMode }: { darkMode: boolean }) {
   );
 }
 
-function ProfileView({ darkMode }: { darkMode: boolean }) {
+function ProfileView({ darkMode, theme, userProfile, onUpdateProfile }: { 
+  darkMode: boolean; 
+  theme: ThemeColors;
+  userProfile: UserProfile;
+  onUpdateProfile: (profile: UserProfile) => void;
+}) {
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
   const [twoFactorEnabled, setTwoFactorEnabled] = useState(false);
   const [language, setLanguage] = useState('en');
+  const [formData, setFormData] = useState(userProfile);
   const [connectedDevices] = useState([
     { id: 1, name: 'Smart Insole #1', type: 'insole', status: 'connected', lastSync: '2 mins ago' },
     { id: 2, name: 'Smart Insole #2', type: 'insole', status: 'disconnected', lastSync: '1 day ago' }
   ]);
 
+  // Update formData when userProfile changes
+  React.useEffect(() => {
+    setFormData(userProfile);
+  }, [userProfile]);
+
   const handleProfileUpdate = () => {
+    onUpdateProfile(formData);
     setSuccessMessage('Profile updated successfully!');
     setShowSuccessMessage(true);
     setTimeout(() => setShowSuccessMessage(false), 3000);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
   };
 
   const handlePasswordReset = () => {
@@ -435,14 +493,14 @@ function ProfileView({ darkMode }: { darkMode: boolean }) {
   return (
     <div className="space-y-6">
       {showSuccessMessage && (
-        <div className="fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-2 animate-fade-in-out">
+        <div className="fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-2 animate-fade-in-out z-50">
           <CheckCircle2 size={20} />
           {successMessage}
         </div>
       )}
 
       {/* Profile Information */}
-      <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} p-6 rounded-lg`}>
+      <div className={`${theme.card} p-6 rounded-lg`}>
         <h2 className="text-2xl font-bold mb-6">Profile Information</h2>
         <div className="space-y-4">
           <div className="flex flex-col sm:flex-row gap-4">
@@ -450,16 +508,20 @@ function ProfileView({ darkMode }: { darkMode: boolean }) {
               <label className="block text-sm font-medium mb-2">Full Name</label>
               <input
                 type="text"
-                defaultValue="Moni Ray"
-                className={`w-full p-3 rounded-lg ${darkMode ? 'bg-gray-700' : 'bg-gray-50'}`}
+                name="fullName"
+                value={formData.fullName}
+                onChange={handleInputChange}
+                className={`w-full p-3 rounded-lg ${theme.card} ${theme.border} focus:ring-2 focus:ring-blue-500 focus:outline-none`}
               />
             </div>
             <div className="flex-1">
               <label className="block text-sm font-medium mb-2">Email</label>
               <input
                 type="email"
-                defaultValue="moni.ray@example.com"
-                className={`w-full p-3 rounded-lg ${darkMode ? 'bg-gray-700' : 'bg-gray-50'}`}
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                className={`w-full p-3 rounded-lg ${theme.card} ${theme.border} focus:ring-2 focus:ring-blue-500 focus:outline-none`}
               />
             </div>
           </div>
@@ -468,30 +530,35 @@ function ProfileView({ darkMode }: { darkMode: boolean }) {
               <label className="block text-sm font-medium mb-2">Phone</label>
               <input
                 type="tel"
-                defaultValue="+1234567890"
-                className={`w-full p-3 rounded-lg ${darkMode ? 'bg-gray-700' : 'bg-gray-50'}`}
+                name="phone"
+                value={formData.phone}
+                onChange={handleInputChange}
+                className={`w-full p-3 rounded-lg ${theme.card} ${theme.border} focus:ring-2 focus:ring-blue-500 focus:outline-none`}
               />
             </div>
             <div className="flex-1">
               <label className="block text-sm font-medium mb-2">Location</label>
               <input
                 type="text"
-                defaultValue="New York, USA"
-                className={`w-full p-3 rounded-lg ${darkMode ? 'bg-gray-700' : 'bg-gray-50'}`}
+                name="location"
+                value={formData.location}
+                onChange={handleInputChange}
+                className={`w-full p-3 rounded-lg ${theme.card} ${theme.border} focus:ring-2 focus:ring-blue-500 focus:outline-none`}
               />
             </div>
           </div>
           <button
             onClick={handleProfileUpdate}
-            className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors w-full sm:w-auto"
+            className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors w-full sm:w-auto flex items-center justify-center gap-2"
           >
+            <Save size={20} />
             Update Profile
           </button>
         </div>
       </div>
 
       {/* Security Settings */}
-      <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} p-6 rounded-lg`}>
+      <div className={`${theme.card} p-6 rounded-lg`}>
         <h2 className="text-2xl font-bold mb-6">Security Settings</h2>
         <div className="space-y-6">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
@@ -533,7 +600,7 @@ function ProfileView({ darkMode }: { darkMode: boolean }) {
       </div>
 
       {/* Language Settings */}
-      <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} p-6 rounded-lg`}>
+      <div className={`${theme.card} p-6 rounded-lg`}>
         <h2 className="text-2xl font-bold mb-6">Language Settings</h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {[
@@ -547,9 +614,7 @@ function ProfileView({ darkMode }: { darkMode: boolean }) {
               className={`p-4 rounded-lg flex items-center gap-3 transition-colors ${
                 language === lang.code
                   ? 'bg-blue-600 text-white'
-                  : darkMode
-                  ? 'bg-gray-700 hover:bg-gray-600'
-                  : 'bg-gray-50 hover:bg-gray-100'
+                  : theme.cardHover
               }`}
             >
               <span className="text-2xl">{lang.flag}</span>
@@ -560,15 +625,13 @@ function ProfileView({ darkMode }: { darkMode: boolean }) {
       </div>
 
       {/* Connected Devices */}
-      <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} p-6 rounded-lg`}>
+      <div className={`${theme.card} p-6 rounded-lg`}>
         <h2 className="text-2xl font-bold mb-6">Connected Devices</h2>
         <div className="space-y-4">
           {connectedDevices.map((device) => (
             <div
               key={device.id}
-              className={`${
-                darkMode ? 'bg-gray-700' : 'bg-gray-50'
-              } p-4 rounded-lg flex items-center justify-between`}
+              className={`${theme.card} p-4 rounded-lg flex items-center justify-between`}
             >
               <div className="flex items-center gap-3">
                 <div className={`p-2 rounded-lg ${device.status === 'connected' ? 'bg-green-500/20' : 'bg-gray-500/20'}`}>
@@ -596,7 +659,7 @@ function ProfileView({ darkMode }: { darkMode: boolean }) {
   );
 }
 
-function RegisterInsoleView({ darkMode }: { darkMode: boolean }) {
+function RegisterInsoleView({ darkMode, theme }: { darkMode: boolean; theme: ThemeColors }) {
   const [showSuccess, setShowSuccess] = useState(false);
   const [formData, setFormData] = useState({
     serialNumber: '',
@@ -619,7 +682,7 @@ function RegisterInsoleView({ darkMode }: { darkMode: boolean }) {
   };
 
   return (
-    <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} p-6 rounded-lg max-w-2xl mx-auto`}>
+    <div className={`${theme.card} p-6 rounded-lg max-w-2xl mx-auto`}>
       {showSuccess && (
         <div className="fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-2 animate-fade-in-out">
           <CheckCircle2 size={20} />
@@ -638,7 +701,7 @@ function RegisterInsoleView({ darkMode }: { darkMode: boolean }) {
             onChange={handleChange}
             required
             placeholder="Enter insole serial number"
-            className={`w-full p-3 rounded-lg ${darkMode ? 'bg-gray-700' : 'bg-gray-50'}`}
+            className={`w-full p-3 rounded-lg ${theme.card} ${theme.border}`}
           />
         </div>
 
@@ -651,7 +714,7 @@ function RegisterInsoleView({ darkMode }: { darkMode: boolean }) {
             onChange={handleChange}
             required
             placeholder="Enter your email"
-            className={`w-full p-3 rounded-lg ${darkMode ? 'bg-gray-700' : 'bg-gray-50'}`}
+            className={`w-full p-3 rounded-lg ${theme.card} ${theme.border}`}
           />
         </div>
 
@@ -664,7 +727,7 @@ function RegisterInsoleView({ darkMode }: { darkMode: boolean }) {
             onChange={handleChange}
             required
             placeholder="Enter your phone number"
-            className={`w-full p-3 rounded-lg ${darkMode ? 'bg-gray-700' : 'bg-gray-50'}`}
+            className={`w-full p-3 rounded-lg ${theme.card} ${theme.border}`}
           />
         </div>
 
@@ -677,7 +740,7 @@ function RegisterInsoleView({ darkMode }: { darkMode: boolean }) {
             onChange={handleChange}
             required
             placeholder="Enter your full name"
-            className={`w-full p-3 rounded-lg ${darkMode ? 'bg-gray-700' : 'bg-gray-50'}`}
+            className={`w-full p-3 rounded-lg ${theme.card} ${theme.border}`}
           />
         </div>
 
@@ -694,24 +757,41 @@ function RegisterInsoleView({ darkMode }: { darkMode: boolean }) {
 
 function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
-  const [darkMode, setDarkMode] = useState(true);
+  const [darkMode, setDarkMode] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+  const [userProfile, setUserProfile] = useState<UserProfile>({
+    fullName: 'Moni Ray',
+    email: 'moni.ray@example.com',
+    phone: '+1234567890',
+    location: 'New York, USA'
+  });
+
+  const theme = darkMode ? darkTheme : lightTheme;
+
+  const handleUpdateProfile = (newProfile: UserProfile) => {
+    setUserProfile(newProfile);
+  };
 
   const renderContent = () => {
     switch (activeTab) {
       case 'dashboard':
-        return <DashboardView darkMode={darkMode} />;
+        return <DashboardView darkMode={darkMode} theme={theme} />;
       case 'appointment':
-        return <AppointmentView darkMode={darkMode} />;
+        return <AppointmentView darkMode={darkMode} theme={theme} />;
       case 'notifications':
-        return <NotificationsView darkMode={darkMode} />;
+        return <NotificationsView darkMode={darkMode} theme={theme} />;
       case 'profile':
-        return <ProfileView darkMode={darkMode} />;
+        return <ProfileView 
+          darkMode={darkMode} 
+          theme={theme} 
+          userProfile={userProfile} 
+          onUpdateProfile={handleUpdateProfile}
+        />;
       case 'register-insole':
-        return <RegisterInsoleView darkMode={darkMode} />;
+        return <RegisterInsoleView darkMode={darkMode} theme={theme} />;
       default:
-        return <DashboardView darkMode={darkMode} />;
+        return <DashboardView darkMode={darkMode} theme={theme} />;
     }
   };
 
@@ -725,19 +805,17 @@ function App() {
   };
 
   return (
-    <div className={`min-h-screen flex flex-col sm:flex-row ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'}`}>
+    <div className={`min-h-screen flex flex-col sm:flex-row ${theme.background} ${theme.text}`}>
       {/* Logout Confirmation Dialog */}
       {showLogoutConfirm && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} p-6 rounded-lg max-w-sm w-full mx-4`}>
+          <div className={`${theme.card} p-6 rounded-lg max-w-sm w-full mx-4 shadow-xl`}>
             <h3 className="text-xl font-bold mb-4">Confirm Logout</h3>
-            <p className="text-gray-400 mb-6">Are you sure you want to log out?</p>
+            <p className={`${theme.textSecondary} mb-6`}>Are you sure you want to log out?</p>
             <div className="flex gap-4">
               <button
                 onClick={() => setShowLogoutConfirm(false)}
-                className={`flex-1 py-2 rounded-lg ${
-                  darkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-100 hover:bg-gray-200'
-                }`}
+                className={`flex-1 py-2 rounded-lg ${theme.card} ${theme.cardHover} border ${theme.border}`}
               >
                 Cancel
               </button>
@@ -756,14 +834,14 @@ function App() {
       )}
 
       {/* Mobile Header */}
-      <header className="sm:hidden flex items-center justify-between p-4 bg-gray-800">
+      <header className={`sm:hidden flex items-center justify-between p-4 ${theme.card}`}>
         <div className="flex items-center gap-2">
           <span className="text-3xl font-bold bg-blue-600 text-white w-10 h-10 rounded-lg flex items-center justify-center">a</span>
           <span className="text-2xl font-bold">appo</span>
         </div>
         <button 
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="p-2 rounded-lg hover:bg-gray-700"
+          className={`p-2 rounded-lg ${theme.cardHover}`}
         >
           {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
@@ -771,7 +849,7 @@ function App() {
 
       {/* Sidebar */}
       <aside className={`
-        ${darkMode ? 'bg-gray-800' : 'bg-white'}
+        ${theme.card}
         ${isMobileMenuOpen ? 'block' : 'hidden'}
         sm:block
         w-full sm:w-64 
@@ -781,6 +859,7 @@ function App() {
         flex 
         flex-col
         z-40
+        border-r ${theme.border}
       `}>
         <div className="hidden sm:flex items-center gap-2 mb-8">
           <span className="text-3xl font-bold bg-blue-600 text-white w-10 h-10 rounded-lg flex items-center justify-center">a</span>
@@ -788,42 +867,31 @@ function App() {
         </div>
 
         <nav className="flex-1 space-y-2">
-          <button 
-            onClick={() => handleTabClick('dashboard')}
-            className={`flex items-center gap-3 w-full p-3 rounded-lg ${activeTab === 'dashboard' ? 'bg-blue-600 text-white' : 'hover:bg-gray-700'}`}
-          >
-            <Heart size={20} /> Dashboard
-          </button>
-          <button 
-            onClick={() => handleTabClick('appointment')}
-            className={`flex items-center gap-3 w-full p-3 rounded-lg ${activeTab === 'appointment' ? 'bg-blue-600 text-white' : 'hover:bg-gray-700'}`}
-          >
-            <Calendar size={20} /> Appointment
-          </button>
-          <button 
-            onClick={() => handleTabClick('notifications')}
-            className={`flex items-center gap-3 w-full p-3 rounded-lg ${activeTab === 'notifications' ? 'bg-blue-600 text-white' : 'hover:bg-gray-700'}`}
-          >
-            <Bell size={20} /> Notifications
-          </button>
-          <button 
-            onClick={() => handleTabClick('profile')}
-            className={`flex items-center gap-3 w-full p-3 rounded-lg ${activeTab === 'profile' ? 'bg-blue-600 text-white' : 'hover:bg-gray-700'}`}
-          >
-            <User size={20} /> Profile
-          </button>
-          <button 
-            onClick={() => handleTabClick('register-insole')}
-            className={`flex items-center gap-3 w-full p-3 rounded-lg ${activeTab === 'register-insole' ? 'bg-blue-600 text-white' : 'hover:bg-gray-700'}`}
-          >
-            <Plus size={20} /> Register Insole
-          </button>
+          {[
+            { id: 'dashboard', icon: Heart, label: 'Dashboard' },
+            { id: 'appointment', icon: Calendar, label: 'Appointment' },
+            { id: 'notifications', icon: Bell, label: 'Notifications' },
+            { id: 'profile', icon: User, label: 'Profile' },
+            { id: 'register-insole', icon: Plus, label: 'Register Insole' }
+          ].map((item) => (
+            <button 
+              key={item.id}
+              onClick={() => handleTabClick(item.id)}
+              className={`flex items-center gap-3 w-full p-3 rounded-lg transition-colors ${
+                activeTab === item.id 
+                  ? `${theme.primary} text-white` 
+                  : `${theme.cardHover}`
+              }`}
+            >
+              <item.icon size={20} /> {item.label}
+            </button>
+          ))}
         </nav>
 
-        <div className="pt-6 border-t border-gray-700">
+        <div className={`pt-6 border-t ${theme.border}`}>
           <button
             onClick={handleLogout}
-            className="flex items-center gap-3 w-full p-3 rounded-lg text-red-500 hover:bg-gray-700"
+            className={`flex items-center gap-3 w-full p-3 rounded-lg text-red-500 ${theme.cardHover}`}
           >
             <LogOut size={20} /> Logout
           </button>
@@ -835,28 +903,33 @@ function App() {
         {/* Header */}
         <header className="flex items-center justify-between mb-8">
           <div className="relative w-44">
-            <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400" size={16} />
+            <Search className={`absolute left-2 top-1/2 transform -translate-y-1/2 ${theme.textSecondary}`} size={16} />
             <input
               type="text"
               placeholder="Search"
-              className={`pl-8 pr-3 py-1.5 rounded-lg ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'} w-full text-sm`}
+              className={`pl-8 pr-3 py-1.5 rounded-lg ${theme.card} w-full text-sm border ${theme.border}`}
             />
           </div>
           <div className="flex items-center gap-2">
-            <button onClick={() => setDarkMode(!darkMode)} className="p-1.5 rounded-lg hover:bg-gray-700">
-              <Moon size={18} />
+            <button 
+              onClick={() => setDarkMode(!darkMode)} 
+              className={`p-2 rounded-lg ${theme.cardHover} transition-colors`}
+              aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+            >
+              <Moon size={18} className={darkMode ? 'hidden' : 'block'} />
+              <Sun size={18} className={darkMode ? 'block' : 'hidden'} />
             </button>
-            <button className="p-1.5 rounded-lg hover:bg-gray-700 relative">
+            <button className={`p-1.5 rounded-lg ${theme.cardHover} relative`}>
               <Bell size={18} />
-              <span className="absolute top-0 right-0 w-3.5 h-3.5 bg-red-500 rounded-full text-xs flex items-center justify-center">6</span>
+              <span className="absolute top-0 right-0 w-3.5 h-3.5 bg-red-500 text-white rounded-full text-xs flex items-center justify-center">6</span>
             </button>
             <div className="flex items-center gap-2 ml-2">
-              <div className="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center">
+              <div className={`w-8 h-8 rounded-full ${theme.card} border ${theme.border} flex items-center justify-center`}>
                 <User size={16} />
               </div>
               <div>
-                <p className="text-sm font-medium">Moni Ray</p>
-                <p className="text-xs text-gray-400">User</p>
+                <p className="text-sm font-medium">{userProfile.fullName}</p>
+                <p className={`text-xs ${theme.textSecondary}`}>User</p>
               </div>
             </div>
           </div>
