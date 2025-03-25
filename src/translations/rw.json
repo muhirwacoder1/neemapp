@@ -1,0 +1,76 @@
+{
+  "dashboard": {
+    "title": "Ikibaho",
+    "connectionStatus": "Uko Umurongo Uhagaze",
+    "footPressures": "Umuvuduko w'Ikirenge",
+    "healthStats": "Imibare y'Ubuzima",
+    "heartRate": "Umuvuduko w'Umutima",
+    "temperature": "Ubushyuhe",
+    "ulcerMonitoring": "Gukurikirana Ibikomere by'Ibirenge",
+    "ursUpdate": "URS ivugururwa buri masaha 2"
+  },
+  "appointments": {
+    "title": "Gahunda",
+    "bookAppointment": "Gufata Gahunda",
+    "selectDate": "Hitamo Itariki",
+    "selectTime": "Hitamo Isaha",
+    "selectDoctor": "Hitamo Umuganga",
+    "cancel": "Hagarika",
+    "book": "Emeza Gahunda",
+    "pending": "Itegerejwe",
+    "approved": "Yemewe",
+    "rejected": "Yanzwe",
+    "joinMeeting": "Injira mu Nama"
+  },
+  "notifications": {
+    "title": "Ubutumwa",
+    "highPressure": "Umuvuduko Ukabije",
+    "appointmentReminder": "Urwibutso rwa Gahunda",
+    "healthUpdate": "Amakuru y'Ubuzima"
+  },
+  "profile": {
+    "title": "Umwirondoro",
+    "profileInfo": "Amakuru y'Umwirondoro",
+    "fullName": "Amazina Yombi",
+    "email": "Imeri",
+    "phone": "Telefoni",
+    "location": "Aho Ubarizwa",
+    "updateProfile": "Vugurura Umwirondoro",
+    "updateSuccess": "Umwirondoro wavuguruwe neza!",
+    "security": "Umutekano",
+    "passwordReset": "Guhindura Ijambo ry'Ibanga",
+    "changePassword": "Hindura ijambo ry'ibanga ryawe",
+    "resetPassword": "Hindura Ijambo ry'Ibanga",
+    "passwordResetSuccess": "Ubutumwa bwo guhindura ijambo ry'ibanga bwoherejwe!",
+    "twoFactor": "Uburyo Bubiri bwo Kwemeza",
+    "twoFactorDesc": "Ongeraho umutekano",
+    "enabled": "Birakora",
+    "disabled": "Ntibirakora",
+    "twoFactorEnabled": "Uburyo bubiri bwo kwemeza bwatangiye gukora!",
+    "twoFactorDisabled": "Uburyo bubiri bwo kwemeza bwahagaritswe!",
+    "language": "Ururimi",
+    "languageChanged": "Ururimi rwahinduwe neza!",
+    "devices": "Ibikoresho Bifatanyije",
+    "lastSync": "Ihuza rya Nyuma",
+    "connected": "Byafatanyije",
+    "disconnected": "Ntibyafatanyije"
+  },
+  "registerInsole": {
+    "title": "Kwandikisha Insole Nshya",
+    "serialNumber": "Nomero Iranga (SN)",
+    "enterSerial": "Andika nomero iranga insole",
+    "enterEmail": "Andika imeri yawe",
+    "enterPhone": "Andika telefoni yawe",
+    "enterName": "Andika amazina yawe yombi",
+    "register": "Andikisha Insole",
+    "success": "Insole yanditswe neza!"
+  },
+  "common": {
+    "search": "Shakisha",
+    "user": "Ukoresha",
+    "logout": "Sohoka",
+    "confirmLogout": "Emeza Gusohoka",
+    "logoutMessage": "Uremeza ko ushaka gusohoka?",
+    "cancel": "Hagarika"
+  }
+} 
